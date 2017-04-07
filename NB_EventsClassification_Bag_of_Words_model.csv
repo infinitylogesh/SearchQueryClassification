@@ -93,7 +93,7 @@ class,id
 1,oracle events in mumbai for next month
 1,list all my upcoming corporate in newyork on thursday
 1,list all my recommended event in Chennai tomorrow
-1,trainings available in scala for next month
+0,trainings available in scala for next month
 0,android analysts with 5+ years of experience
 1,UI corporate I am speaking today
 1,UI event on thursday
@@ -174,7 +174,7 @@ class,id
 1,UI celebrations in mumbai
 1,java workshop in bangalore
 1,java conferences happening in chennai
-1,trainings published in java for next week
+0,trainings published in java for next week
 0,oracle proposals on Monday
 0,experts in oracle with 2-7 years of experience
 1,what are all my upcoming workshops I am speaking From 17th April and 1st of May
@@ -462,7 +462,7 @@ class,id
 0,white papers in ajax on this Saturday
 1,oracle corporate I am speaking on 21st April
 1,what are all my recommended workshops for this week
-1,trainings published in java From 17th April and 1st of May
+0,trainings published in java From 17th April and 1st of May
 1,Python celebration happening in chennai tomorrow
 0,my tasks on thursday
 1,java celebrations in mumbai on this Saturday
@@ -493,7 +493,7 @@ class,id
 1,my conference I am organizing on Monday
 0,list all my closed risks for next week
 0,my competencies on next tuesday
-1,trainings published in java for next month
+0,trainings published in java for next month
 0,.net white paper on 21st April
 0,case studies in oracle From 17th April and 1st of May
 0,best practice in oracle tomorrow
@@ -1204,7 +1204,7 @@ class,id
 0,scala related competencies on thursday
 1,what are all the corporate I am participating From 17th April and 1st of May
 1,Hub workshop in mumbai tomorrow
-1,training published in java between 1st of May and 2nd of December
+0,training published in java between 1st of May and 2nd of December
 0,architects in scala with experience less than 10 years
 1,IBelong conferences in bangalore today
 1,list all my recommended workshops in mumbai today
@@ -1894,7 +1894,7 @@ class,id
 1,my conference in mumbai on this Saturday
 0,oracle architects in scala
 1,list all my project conference on next tuesday
-1,trainings available in scala on 21st April
+0,trainings available in scala on 21st April
 0,scala best practice for next month
 0,my competencie today
 1,list all my upcoming celebrations on this Saturday
@@ -1999,5 +1999,5 @@ class,id
 0,lessons learnts published in java for this month
 0,my white papers on Monday
 0,who are all the developer with experience more than 3 years
-0,experts in chennai
-0,in chennai
+1,experts in chennai
+1,in chennai
