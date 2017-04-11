@@ -18,7 +18,7 @@ def queries_to_words(raw_review):
     return " ".join(words)
 
 def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
-                        n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
+                        n_jobs=1, train_sizes=np.linspace(.1, 1.0, 1.5)):
     plt.figure()
     plt.title(title)
     if ylim is not None:
@@ -97,10 +97,10 @@ print zip(vectorizer.get_feature_names(),forest.feature_importances_)
 output = pd.DataFrame(data={"id":test["query"], "class":result} )
 
 scores = cross_val_score(forest,test_data_features, test["class"], cv=5)
-train_sizes, train_scores, valid_scores =  learning_curve(
-    RandomForestClassifier(n_estimators = 100), test_data_features, test["class"], cv=5, train_sizes=[50, 80, 110])
-    # plot_learning_curve(forest,"First Plot",test_data_features, test["class"], ylim=(0.7, 1.01), train_sizes=[50, 80, 110], cv=5)
-print train_sizes, train_scores, valid_scores
+#train_sizes, train_scores, valid_scores =  learning_curve(
+#    RandomForestClassifier(n_estimators = 100), test_data_features, test["class"], cv=5, train_sizes=[50, 80, 110])
+plot_learning_curve(forest,"First Plot",test_data_features, test["class"], ylim=(0.7, 1.01), cv=5)
+#print train_sizes, train_scores, valid_scores
 # Use pandas to write the comma-separated output file
 plt.show()
 output.to_csv( "Forest_EventsClassification_Bag_of_Words_model.csv", index=False, quoting=3 )
