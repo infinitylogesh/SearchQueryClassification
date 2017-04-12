@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/BOWclassification.iml" filepath="$PROJECT_DIR$/.idea/BOWclassification.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/searchQueryClassifier.iml" filepath="$PROJECT_DIR$/.idea/searchQueryClassifier.iml" />
     </modules>
   </component>
 </project>

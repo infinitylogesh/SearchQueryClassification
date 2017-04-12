@@ -2,10 +2,13 @@ import pandas as pd
 import re
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
+import plotOps
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import learning_curve
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
@@ -29,24 +32,7 @@ def all_words_to_Array(queries):
         temp.append(review_to_words(queries[i]))
     return temp
 
-def plot3D(texts,queries_matrix,Y):
-    fig = plt.figure(1, figsize=(8, 6))
-    ax = Axes3D(fig, elev=-150, azim=110)
-    X_reduced = PCA(n_components=3).fit_transform(queries_matrix)
-    for i in xrange(0,Y.size):
-        ax.scatter(X_reduced[:, 0][i], X_reduced[:, 1][i], X_reduced[:, 2][i],
-           cmap=plt.cm.Paired)
-        ax.text(X_reduced[:, 0][i], X_reduced[:, 1][i], X_reduced[:, 2][i] , '%s' % (texts[i]), size=5, zorder=1)
-    ax.set_title("First three PCA directions")
-    ax.set_xlabel("1st eigenvector")
-    ax.w_xaxis.set_ticklabels(())
-    ax.set_ylabel("2nd eigenvector")
-    ax.w_yaxis.set_ticklabels(())
-    ax.set_zlabel("3rd eigenvector")
-    ax.w_zaxis.set_ticklabels(())
-    plt.show()
-
-train = pd.read_csv("dataset/TrainingSet.tsv", header=0, delimiter="\t")
+train = pd.read_csv("dataset/multiTrainingSet.tsv", header=0, delimiter="\t")
 num_reviews = train["query"].size
 print num_reviews
 clean_train_reviews = all_words_to_Array(train["query"])
@@ -57,7 +43,7 @@ train_data_features = vectorizer.fit_transform(clean_train_reviews)
 train_data_features = train_data_features.toarray()
 print vectorizer.get_feature_names()
 
-test = pd.read_csv("dataset/TestSet.tsv", header=0, delimiter="\t",quoting=3 )
+test = pd.read_csv("dataset/multiTestSet.tsv", header=0, delimiter="\t",quoting=3 )
 
 # Verify that there are 25,000 rows and 2 columns
 print test.shape
@@ -70,16 +56,34 @@ print "Cleaning and parsing the test set queries...\n"
 
 # Get a bag of words for the test set, and convert to a numpy array
 test_data_features = vectorizer.transform(clean_test_reviews)
-tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = 'english')
-tfidfMatrix = tf.fit_transform(clean_test_reviews)
 test_data_features = test_data_features.toarray()
-lr = LogisticRegression()
+lr = LogisticRegression(multi_class='multinomial',solver='sag')
 lr.fit(train_data_features,train["class"])
 predicted = lr.predict(test_data_features)
-plot3D(test["query"],tfidfMatrix.todense(),test["class"])
-plot3D(test["query"],tfidfMatrix.todense(),predicted)
+
+eventsFeatures =  zip(lr.coef_[0],vectorizer.get_feature_names())
+workitemsFeatures =  zip(lr.coef_[1],vectorizer.get_feature_names())
+knowledgeFeatures =  zip(lr.coef_[2],vectorizer.get_feature_names())
+expertsFeatures =  zip(lr.coef_[3],vectorizer.get_feature_names())
+
+plotOps.word_score_plot(sorted(eventsFeatures,key=lambda x:x[0],reverse=True),10)
+plotOps.word_score_plot(sorted(workitemsFeatures,key=lambda x:x[0],reverse=True),10)
 
 
+# plotOps.plot3D(test["query"],test_data_features,test["class"])
+# plot3D(test["query"],test_data_features,predicted)
+
+# print lr.score(test_data_features,test["class"])
+# plotOps.plot_learning_curve(lr,"First Plot",test_data_features, test["class"], cv=5)
+
+
+# while(True):
+#     query = raw_input(">>")
+#     queryArray = []
+#     queryArray.append(review_to_words(query))
+#     test_data_features = vectorizer.transform(queryArray)
+#     test_data_features = test_data_features.toarray()
+#     print(lr.predict(test_data_features))
 
 
 # Use the random forest to make sentiment label predictions
@@ -93,10 +97,4 @@ plot3D(test["query"],tfidfMatrix.todense(),predicted)
 #
 # output.to_csv( "NB_EventsClassification_Bag_of_Words_model.csv", index=False, quoting=3 )
 #
-# while(True):
-#     query = raw_input(">>")
-#     queryArray = []
-#     queryArray.append(review_to_words(query))
-#     test_data_features = vectorizer.transform(queryArray)
-#     test_data_features = test_data_features.toarray()
-#     print(mnb.predict(test_data_features))
+
